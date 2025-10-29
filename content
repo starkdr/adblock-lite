@@ -1,0 +1,26 @@
+// Selectors of common ad elements
+const adSelectors = [
+  '[id*="ad"]',
+  '[class*="ad"]',
+  '[id*="banner"]',
+  '[class*="sponsor"]',
+  '[id*="promo"]',
+  'iframe[src*="doubleclick"]',
+  'iframe[src*="googlesyndication"]'
+];
+
+// Function to hide ads
+function hideAds() {
+  adSelectors.forEach(sel => {
+    document.querySelectorAll(sel).forEach(el => {
+      el.style.display = 'none';
+    });
+  });
+}
+
+// Initial clean
+hideAds();
+
+// Observe for dynamically loaded ads
+const observer = new MutationObserver(hideAds);
+observer.observe(document.body, { childList: true, subtree: true });
