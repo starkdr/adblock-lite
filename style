@@ -1,8 +1,25 @@
-/* Optional: hide common ad frames with CSS */
-iframe[src*="doubleclick"],
-iframe[src*="googlesyndication"],
-div[class*="ad"],
-div[id*="ad"] {
-  display: none !important;
-  visibility: hidden !important;
-}
+// Minimal ad domain blocklist
+const adDomains = [
+  "*://*.doubleclick.net/*",
+  "*://*.googlesyndication.com/*",
+  "*://*.adnxs.com/*",
+  "*://*.taboola.com/*",
+  "*://*.outbrain.com/*",
+  "*://*.revcontent.com/*",
+  "*://*.moatads.com/*",
+  "*://*.adservice.google.com/*"
+];
+
+// Convert domains to blocking rules
+const rules = adDomains.map((domain, i) => ({
+  id: i + 1,
+  priority: 1,
+  action: { type: "block" },
+  condition: { urlFilter: domain, resourceTypes: ["script", "image", "sub_frame", "xmlhttprequest"] }
+}));
+
+// Register rules
+chrome.declarativeNetRequest.updateDynamicRules({
+  removeRuleIds: rules.map(r => r.id),
+  addRules: rules
+});
