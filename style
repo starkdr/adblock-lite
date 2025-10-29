@@ -1,0 +1,8 @@
+/* Optional: hide common ad frames with CSS */
+iframe[src*="doubleclick"],
+iframe[src*="googlesyndication"],
+div[class*="ad"],
+div[id*="ad"] {
+  display: none !important;
+  visibility: hidden !important;
+}
